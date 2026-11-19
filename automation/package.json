@@ -1,0 +1,10 @@
+{
+  "name": "c3code-wrapper-automation",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Cookie-session API helpers for driving a C3 Code workspace without chat turns",
+  "license": "MIT",
+  "dependencies": {
+    "playwright-core": "^1.50.0"
+  }
+}

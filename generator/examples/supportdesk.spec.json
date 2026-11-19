@@ -1,0 +1,1103 @@
+{
+  "package": "supportdesk",
+  "title": "Support Desk",
+  "description": "Customer support tickets with a dashboard and a read-only AI support analyst",
+  "asOf": "2026-11-19",
+  "seed": "supportdesk-v1",
+  "dataDir": "data",
+  "tests": true,
+  "entities": [
+    {
+      "name": "Customer",
+      "doc": "A customer account that raises {@link SupportTicket}s. Each customer has a support tier and a sales region.",
+      "icon": "Building2",
+      "label": "name",
+      "enums": [
+        {
+          "name": "Tier",
+          "doc": "Support tier of a {@link Customer}, which sets response targets.",
+          "values": [
+            {
+              "key": "GOLD",
+              "label": "Gold",
+              "doc": "Premium support with the fastest response targets.",
+              "appearance": "warning"
+            },
+            {
+              "key": "SILVER",
+              "label": "Silver",
+              "doc": "Standard business support.",
+              "appearance": "info"
+            },
+            {
+              "key": "BRONZE",
+              "label": "Bronze",
+              "doc": "Basic support.",
+              "appearance": "secondary"
+            }
+          ]
+        },
+        {
+          "name": "Region",
+          "doc": "Sales region of a {@link Customer}.",
+          "values": [
+            {
+              "key": "NA",
+              "label": "NA",
+              "doc": "North America.",
+              "appearance": "accent"
+            },
+            {
+              "key": "EMEA",
+              "label": "EMEA",
+              "doc": "Europe, Middle East and Africa.",
+              "appearance": "success"
+            },
+            {
+              "key": "APAC",
+              "label": "APAC",
+              "doc": "Asia-Pacific.",
+              "appearance": "info"
+            }
+          ]
+        }
+      ],
+      "fields": [
+        {
+          "name": "tier",
+          "enum": "Tier",
+          "required": true,
+          "doc": "Support tier of the customer."
+        },
+        {
+          "name": "region",
+          "enum": "Region",
+          "required": true,
+          "doc": "Sales region of the customer."
+        },
+        {
+          "name": "industry",
+          "doc": "Industry the customer operates in."
+        },
+        {
+          "name": "accountManager",
+          "label": "Account Manager",
+          "doc": "Name of the account manager responsible for the customer."
+        }
+      ],
+      "list": {
+        "columns": [
+          "name",
+          "tier",
+          "region",
+          "industry",
+          "accountManager"
+        ],
+        "search": [
+          "name",
+          "industry",
+          "accountManager"
+        ],
+        "filters": [
+          "tier",
+          "region"
+        ],
+        "sort": {
+          "field": "name",
+          "dir": "asc"
+        }
+      },
+      "seed": {
+        "idPrefix": "cust_",
+        "rows": [
+          {
+            "name": "Acme Logistics",
+            "tier": "Gold",
+            "region": "NA",
+            "industry": "Logistics",
+            "accountManager": "Dana Ruiz"
+          },
+          {
+            "name": "Blue Harbor Bank",
+            "tier": "Gold",
+            "region": "NA",
+            "industry": "Financial Services",
+            "accountManager": "Dana Ruiz"
+          },
+          {
+            "name": "Cedar Health Partners",
+            "tier": "Silver",
+            "region": "NA",
+            "industry": "Healthcare",
+            "accountManager": "Marcus Lee"
+          },
+          {
+            "name": "Delta Retail Group",
+            "tier": "Bronze",
+            "region": "NA",
+            "industry": "Retail",
+            "accountManager": "Marcus Lee"
+          },
+          {
+            "name": "Evergreen Utilities",
+            "tier": "Silver",
+            "region": "NA",
+            "industry": "Energy",
+            "accountManager": "Priya Nair"
+          },
+          {
+            "name": "Falcon Aerospace",
+            "tier": "Gold",
+            "region": "NA",
+            "industry": "Manufacturing",
+            "accountManager": "Priya Nair"
+          },
+          {
+            "name": "Granite Insurance",
+            "tier": "Bronze",
+            "region": "NA",
+            "industry": "Financial Services",
+            "accountManager": "Dana Ruiz"
+          },
+          {
+            "name": "Harbor Freight Lines",
+            "tier": "Silver",
+            "region": "NA",
+            "industry": "Logistics",
+            "accountManager": "Marcus Lee"
+          },
+          {
+            "name": "Iberia Telecom",
+            "tier": "Gold",
+            "region": "EMEA",
+            "industry": "Telecommunications",
+            "accountManager": "Sofia Marin"
+          },
+          {
+            "name": "Jensen Maritime",
+            "tier": "Silver",
+            "region": "EMEA",
+            "industry": "Logistics",
+            "accountManager": "Sofia Marin"
+          },
+          {
+            "name": "Kestrel Pharma",
+            "tier": "Gold",
+            "region": "EMEA",
+            "industry": "Healthcare",
+            "accountManager": "Lukas Becker"
+          },
+          {
+            "name": "Lumen Media",
+            "tier": "Bronze",
+            "region": "EMEA",
+            "industry": "Media",
+            "accountManager": "Lukas Becker"
+          },
+          {
+            "name": "Meridian Energy",
+            "tier": "Silver",
+            "region": "EMEA",
+            "industry": "Energy",
+            "accountManager": "Sofia Marin"
+          },
+          {
+            "name": "Nordic Freight AB",
+            "tier": "Bronze",
+            "region": "EMEA",
+            "industry": "Logistics",
+            "accountManager": "Lukas Becker"
+          },
+          {
+            "name": "Orion Automotive",
+            "tier": "Silver",
+            "region": "EMEA",
+            "industry": "Manufacturing",
+            "accountManager": "Sofia Marin"
+          },
+          {
+            "name": "Pioneer Foods",
+            "tier": "Bronze",
+            "region": "EMEA",
+            "industry": "Retail",
+            "accountManager": "Lukas Becker"
+          },
+          {
+            "name": "Quantum Semiconductors",
+            "tier": "Gold",
+            "region": "APAC",
+            "industry": "Manufacturing",
+            "accountManager": "Kenji Sato"
+          },
+          {
+            "name": "Redwood Energy",
+            "tier": "Silver",
+            "region": "APAC",
+            "industry": "Energy",
+            "accountManager": "Kenji Sato"
+          },
+          {
+            "name": "Sakura Retail",
+            "tier": "Bronze",
+            "region": "APAC",
+            "industry": "Retail",
+            "accountManager": "Mei Chen"
+          },
+          {
+            "name": "Tasman Shipping",
+            "tier": "Silver",
+            "region": "APAC",
+            "industry": "Logistics",
+            "accountManager": "Mei Chen"
+          },
+          {
+            "name": "Uluru Mining",
+            "tier": "Gold",
+            "region": "APAC",
+            "industry": "Mining",
+            "accountManager": "Kenji Sato"
+          },
+          {
+            "name": "Vantage Telecom Asia",
+            "tier": "Silver",
+            "region": "APAC",
+            "industry": "Telecommunications",
+            "accountManager": "Mei Chen"
+          },
+          {
+            "name": "Wattle Health",
+            "tier": "Bronze",
+            "region": "APAC",
+            "industry": "Healthcare",
+            "accountManager": "Mei Chen"
+          },
+          {
+            "name": "Xiamen Electronics",
+            "tier": "Silver",
+            "region": "APAC",
+            "industry": "Manufacturing",
+            "accountManager": "Kenji Sato"
+          },
+          {
+            "name": "Yarra Financial",
+            "tier": "Bronze",
+            "region": "APAC",
+            "industry": "Financial Services",
+            "accountManager": "Mei Chen"
+          }
+        ]
+      }
+    },
+    {
+      "name": "SupportTicket",
+      "doc": "A support request raised by a {@link Customer} about one product, tracked from Open to Closed.",
+      "plural": "Tickets",
+      "singular": "Ticket",
+      "route": "tickets",
+      "icon": "LifeBuoy",
+      "label": "number",
+      "subtitle": "subject",
+      "enums": [
+        {
+          "name": "Product",
+          "doc": "Product a {@link SupportTicket} is about.",
+          "values": [
+            {
+              "key": "ANALYTICS_SUITE",
+              "label": "Analytics Suite",
+              "doc": "Reporting and dashboards product.",
+              "appearance": "accent",
+              "weight": 4
+            },
+            {
+              "key": "MOBILE_APP",
+              "label": "Mobile App",
+              "doc": "iOS and Android apps.",
+              "appearance": "info",
+              "weight": 3
+            },
+            {
+              "key": "BILLING_PORTAL",
+              "label": "Billing Portal",
+              "doc": "Self-service billing and invoices.",
+              "appearance": "warning",
+              "weight": 2
+            },
+            {
+              "key": "API_GATEWAY",
+              "label": "API Gateway",
+              "doc": "Public REST API and integrations.",
+              "appearance": "success",
+              "weight": 3
+            }
+          ]
+        },
+        {
+          "name": "Category",
+          "doc": "Kind of problem a {@link SupportTicket} reports.",
+          "values": [
+            {
+              "key": "BILLING",
+              "label": "Billing",
+              "doc": "Invoices, payments and charges.",
+              "appearance": "warning",
+              "weight": 3
+            },
+            {
+              "key": "BUG",
+              "label": "Bug",
+              "doc": "Defect in the product.",
+              "appearance": "danger",
+              "weight": 5
+            },
+            {
+              "key": "FEATURE_REQUEST",
+              "label": "Feature Request",
+              "doc": "Request for new functionality.",
+              "appearance": "accent",
+              "weight": 3
+            },
+            {
+              "key": "OUTAGE",
+              "label": "Outage",
+              "doc": "Service unavailable or degraded.",
+              "appearance": "danger",
+              "weight": 1
+            },
+            {
+              "key": "ACCOUNT_ACCESS",
+              "label": "Account Access",
+              "doc": "Login, SSO, MFA and permissions.",
+              "appearance": "info",
+              "weight": 3
+            }
+          ]
+        },
+        {
+          "name": "Priority",
+          "doc": "Urgency of a {@link SupportTicket}.",
+          "values": [
+            {
+              "key": "LOW",
+              "label": "Low",
+              "doc": "No business impact.",
+              "appearance": "secondary",
+              "weight": 4
+            },
+            {
+              "key": "MEDIUM",
+              "label": "Medium",
+              "doc": "Limited impact with a workaround.",
+              "appearance": "info",
+              "weight": 6
+            },
+            {
+              "key": "HIGH",
+              "label": "High",
+              "doc": "Significant impact, no workaround.",
+              "appearance": "warning",
+              "weight": 4
+            },
+            {
+              "key": "CRITICAL",
+              "label": "Critical",
+              "doc": "Business stopped; immediate response.",
+              "appearance": "danger",
+              "weight": 1
+            }
+          ]
+        },
+        {
+          "name": "Status",
+          "doc": "Lifecycle status of a {@link SupportTicket}.",
+          "values": [
+            {
+              "key": "OPEN",
+              "label": "Open",
+              "doc": "New, not yet picked up.",
+              "appearance": "info",
+              "weight": 15
+            },
+            {
+              "key": "IN_PROGRESS",
+              "label": "In Progress",
+              "doc": "An agent is working on it.",
+              "appearance": "warning",
+              "weight": 13
+            },
+            {
+              "key": "WAITING_ON_CUSTOMER",
+              "label": "Waiting on Customer",
+              "doc": "Paused until the customer replies.",
+              "appearance": "secondary",
+              "weight": 6
+            },
+            {
+              "key": "RESOLVED",
+              "label": "Resolved",
+              "doc": "A fix or answer was delivered.",
+              "appearance": "success",
+              "weight": 35
+            },
+            {
+              "key": "CLOSED",
+              "label": "Closed",
+              "doc": "Confirmed by the customer or closed automatically.",
+              "appearance": "primary",
+              "weight": 31
+            }
+          ]
+        },
+        {
+          "name": "Channel",
+          "doc": "How a {@link SupportTicket} was raised.",
+          "values": [
+            {
+              "key": "EMAIL",
+              "label": "Email",
+              "doc": "Sent to the support mailbox.",
+              "appearance": "info",
+              "weight": 5
+            },
+            {
+              "key": "PORTAL",
+              "label": "Portal",
+              "doc": "Submitted in the customer portal.",
+              "appearance": "accent",
+              "weight": 4
+            },
+            {
+              "key": "PHONE",
+              "label": "Phone",
+              "doc": "Raised by phone.",
+              "appearance": "warning",
+              "weight": 2
+            },
+            {
+              "key": "CHAT",
+              "label": "Chat",
+              "doc": "Raised in live chat.",
+              "appearance": "success",
+              "weight": 2
+            }
+          ]
+        }
+      ],
+      "fields": [
+        {
+          "name": "number",
+          "required": true,
+          "auto": "seq",
+          "doc": "Human-readable ticket number (e.g. `TCK-1042`), unique per ticket.",
+          "gen": {
+            "kind": "seq",
+            "format": "TCK-{n}",
+            "start": 1001
+          }
+        },
+        {
+          "name": "category",
+          "enum": "Category",
+          "required": true,
+          "doc": "Kind of problem reported."
+        },
+        {
+          "name": "subject",
+          "required": true,
+          "doc": "One-line summary written by the customer.",
+          "gen": {
+            "kind": "pickBy",
+            "field": "category",
+            "values": {
+              "Billing": [
+                "Invoice shows duplicate charge for November",
+                "Credit note not applied to last invoice",
+                "Tax amount wrong on annual renewal",
+                "Need PO number added to invoices",
+                "Charged for seats we removed",
+                "Payment failed but card is valid"
+              ],
+              "Bug": [
+                "Export to CSV drops the last row",
+                "Dashboard filters reset after refresh",
+                "Timezone wrong on scheduled reports",
+                "Mobile app crashes when opening attachments",
+                "Search returns archived records",
+                "API returns 500 on bulk update"
+              ],
+              "Feature Request": [
+                "Add SSO support for Azure AD groups",
+                "Allow custom fields on the ticket form",
+                "Dark mode for the reporting module",
+                "Webhook when an order ships",
+                "Bulk edit for user permissions",
+                "Scheduled export to SFTP"
+              ],
+              "Outage": [
+                "Portal unreachable for all users",
+                "API gateway timing out since 09:00",
+                "Reports not loading for EU tenants",
+                "Login page returns 502",
+                "Sync jobs stuck in pending",
+                "Mobile app cannot connect to server"
+              ],
+              "Account Access": [
+                "User locked out after password reset",
+                "MFA codes not arriving by SMS",
+                "New hire cannot see the admin menu",
+                "SSO login loops back to sign-in page",
+                "Need to transfer account ownership",
+                "Deactivated user still has access"
+              ]
+            }
+          }
+        },
+        {
+          "name": "description",
+          "multiline": true,
+          "doc": "Full problem statement, two or three sentences.",
+          "gen": {
+            "kind": "pickBy",
+            "field": "category",
+            "values": {
+              "Billing": [
+                "The customer reports that the latest invoice does not match the contract. Finance needs a corrected invoice before the end of the month.",
+                "Accounts payable flagged a discrepancy between the quote and the invoice. They asked for a breakdown of the line items and a revised copy.",
+                "The billing contact says the renewal amount is higher than expected. Please review the applied discounts and confirm the correct total."
+              ],
+              "Bug": [
+                "Steps to reproduce were provided and the issue happens every time. The customer has a workaround but it costs their team time each day.",
+                "The problem started after the last release. Screenshots and browser console logs are attached to the ticket.",
+                "Several users on the customer side see the same behaviour. It does not happen in the staging environment."
+              ],
+              "Feature Request": [
+                "The customer would like this capability to support a new internal process. They are willing to join a design review.",
+                "This request comes from the customer admin team and would remove a manual step. It was raised during the quarterly business review.",
+                "Several of the customer's teams asked for this. They would like to know if it is on the roadmap and when."
+              ],
+              "Outage": [
+                "Users across the customer's organisation cannot work. The customer asks for hourly updates until service is restored.",
+                "The monitoring dashboard on the customer side shows errors since this morning. Their operations team escalated it as business critical.",
+                "The customer reports a complete loss of service for one of their regions. They want a root cause analysis once it is fixed."
+              ],
+              "Account Access": [
+                "The user tried the self-service reset and it did not help. The customer admin confirmed the user should have access.",
+                "The customer admin needs this resolved today because the user has a deadline. Identity has been verified by phone.",
+                "Access settings were changed recently by the customer. They are not sure which change caused the issue."
+              ]
+            }
+          }
+        },
+        {
+          "name": "product",
+          "enum": "Product",
+          "required": true,
+          "doc": "Product the ticket is about."
+        },
+        {
+          "name": "priority",
+          "enum": "Priority",
+          "required": true,
+          "doc": "Urgency of the ticket."
+        },
+        {
+          "name": "status",
+          "enum": "Status",
+          "required": true,
+          "doc": "Current lifecycle status."
+        },
+        {
+          "name": "channel",
+          "enum": "Channel",
+          "doc": "How the ticket was raised."
+        },
+        {
+          "name": "customer",
+          "ref": "Customer",
+          "required": true,
+          "inverse": "tickets",
+          "inverseLabel": "Tickets",
+          "doc": "Customer account that raised the ticket."
+        },
+        {
+          "name": "createdDate",
+          "type": "datetime",
+          "auto": "now",
+          "label": "Created",
+          "doc": "When the ticket was opened.",
+          "gen": [
+            {
+              "kind": "datetime",
+              "fromDays": -150,
+              "toDays": -3,
+              "when": {
+                "status": [
+                  "Resolved",
+                  "Closed"
+                ]
+              }
+            },
+            {
+              "kind": "datetime",
+              "fromDays": -30,
+              "toDays": 0
+            }
+          ]
+        },
+        {
+          "name": "resolvedDate",
+          "type": "datetime",
+          "label": "Resolved",
+          "doc": "When the ticket was resolved; set only for Resolved and Closed tickets.",
+          "gen": {
+            "kind": "datetime",
+            "after": "createdDate",
+            "minDays": 0.1,
+            "maxDays": 9,
+            "notAfterAsOf": true,
+            "when": {
+              "status": [
+                "Resolved",
+                "Closed"
+              ]
+            }
+          }
+        },
+        {
+          "name": "firstResponseHours",
+          "type": "double",
+          "format": "hours",
+          "label": "First Response (h)",
+          "doc": "Hours from creation to the first agent response.",
+          "gen": {
+            "kind": "number",
+            "mean": 5,
+            "stdDev": 3,
+            "min": 0.2,
+            "max": 24,
+            "decimals": 1
+          }
+        },
+        {
+          "name": "satisfaction",
+          "type": "int",
+          "label": "CSAT",
+          "doc": "Customer satisfaction score from 1 (poor) to 5 (excellent), from the survey sent after resolution.",
+          "gen": {
+            "kind": "int",
+            "mean": 4,
+            "stdDev": 1,
+            "min": 1,
+            "max": 5,
+            "when": {
+              "status": [
+                "Resolved",
+                "Closed"
+              ]
+            },
+            "nullRate": 0.2
+          }
+        }
+      ],
+      "list": {
+        "columns": [
+          "number",
+          "subject",
+          "customer",
+          "category",
+          "priority",
+          "status",
+          "createdDate"
+        ],
+        "search": [
+          "number",
+          "subject",
+          "customer.name"
+        ],
+        "filters": [
+          "status",
+          "priority",
+          "category",
+          "product",
+          "customer.tier",
+          "customer.region",
+          "customer"
+        ],
+        "sort": {
+          "field": "createdDate",
+          "dir": "desc"
+        }
+      },
+      "detail": {
+        "actions": [
+          {
+            "label": "Start Work",
+            "icon": "Play",
+            "set": {
+              "status": "In Progress"
+            },
+            "when": {
+              "status": [
+                "Open",
+                "Waiting on Customer"
+              ]
+            }
+          },
+          {
+            "label": "Resolve",
+            "icon": "CheckCircle2",
+            "appearance": "success",
+            "set": {
+              "status": "Resolved",
+              "resolvedDate": "$now"
+            },
+            "when": {
+              "status": [
+                "Open",
+                "In Progress",
+                "Waiting on Customer"
+              ]
+            }
+          },
+          {
+            "label": "Close",
+            "icon": "XCircle",
+            "set": {
+              "status": "Closed"
+            },
+            "when": {
+              "status": [
+                "Resolved"
+              ]
+            }
+          }
+        ]
+      },
+      "form": {
+        "defaults": {
+          "priority": "Medium",
+          "status": "Open",
+          "channel": "Portal"
+        },
+        "sections": [
+          {
+            "title": "Ticket",
+            "fields": [
+              "subject",
+              "description",
+              "customer",
+              "product",
+              "category"
+            ]
+          },
+          {
+            "title": "Handling",
+            "fields": [
+              "priority",
+              "status",
+              "channel",
+              "resolvedDate",
+              "firstResponseHours",
+              "satisfaction"
+            ]
+          }
+        ]
+      },
+      "seed": {
+        "count": 200,
+        "idPrefix": "tck_",
+        "idStart": 1001
+      }
+    }
+  ],
+  "dashboard": {
+    "entity": "SupportTicket",
+    "title": "Support Overview",
+    "description": "Ticket volume, backlog and customer satisfaction across all customers.",
+    "kpis": [
+      {
+        "key": "totalCount",
+        "label": "Tickets",
+        "agg": "count",
+        "caption": "All tickets"
+      },
+      {
+        "key": "openCount",
+        "label": "Open Backlog",
+        "agg": "count",
+        "where": {
+          "status": [
+            "Open",
+            "In Progress",
+            "Waiting on Customer"
+          ]
+        },
+        "caption": "Open, In Progress or Waiting"
+      },
+      {
+        "key": "criticalOpenCount",
+        "label": "Critical Open",
+        "agg": "count",
+        "where": {
+          "status": [
+            "Open",
+            "In Progress",
+            "Waiting on Customer"
+          ],
+          "priority": [
+            "Critical"
+          ]
+        },
+        "alert": "danger",
+        "caption": "Critical tickets still open"
+      },
+      {
+        "key": "avgSatisfaction",
+        "label": "Avg CSAT",
+        "agg": "avg",
+        "field": "satisfaction",
+        "format": "number",
+        "caption": "1-5 survey score"
+      },
+      {
+        "key": "resolvedCount",
+        "label": "Resolved",
+        "agg": "count",
+        "where": {
+          "status": [
+            "Resolved",
+            "Closed"
+          ]
+        },
+        "caption": "Resolved or Closed"
+      },
+      {
+        "key": "resolutionRate",
+        "label": "Resolution Rate",
+        "agg": "ratio",
+        "of": "resolvedCount",
+        "over": "totalCount",
+        "format": "percent",
+        "goodAbove": 0.5
+      },
+      {
+        "key": "avgFirstResponse",
+        "label": "Avg First Response",
+        "agg": "avg",
+        "field": "firstResponseHours",
+        "format": "hours"
+      },
+      {
+        "key": "outageCount",
+        "label": "Outages",
+        "agg": "count",
+        "where": {
+          "category": [
+            "Outage"
+          ]
+        },
+        "alert": "warning"
+      }
+    ],
+    "charts": [
+      {
+        "key": "monthly",
+        "kind": "monthly",
+        "title": "Tickets per Month",
+        "months": 6,
+        "span": 2,
+        "series": [
+          {
+            "label": "Created",
+            "dateField": "createdDate",
+            "appearance": "accent"
+          },
+          {
+            "label": "Resolved",
+            "dateField": "resolvedDate",
+            "appearance": "success"
+          }
+        ]
+      },
+      {
+        "key": "byStatus",
+        "kind": "donut",
+        "title": "By Status",
+        "groupBy": "status"
+      },
+      {
+        "key": "byCategory",
+        "kind": "bar",
+        "title": "By Category",
+        "groupBy": "category"
+      },
+      {
+        "key": "byPriority",
+        "kind": "hbar",
+        "title": "By Priority",
+        "groupBy": "priority"
+      },
+      {
+        "key": "byProduct",
+        "kind": "hbar",
+        "title": "By Product",
+        "groupBy": "product"
+      },
+      {
+        "key": "byRegion",
+        "kind": "bar",
+        "title": "By Region",
+        "groupBy": "customer.region"
+      },
+      {
+        "key": "byCustomer",
+        "kind": "hbar",
+        "title": "Top Customers",
+        "groupBy": "customer",
+        "top": 10,
+        "span": 2
+      }
+    ],
+    "recent": {
+      "columns": [
+        "number",
+        "subject",
+        "customer",
+        "priority",
+        "status"
+      ],
+      "limit": 8
+    }
+  },
+  "agent": {
+    "name": "Support Analyst",
+    "type": "SupportAnalyst",
+    "category": "Customer Support",
+    "llmClient": "claude-sonnet-4.6",
+    "description": "Answers questions about this app's support tickets and customers from live data; can propose (not apply) ticket updates.",
+    "route": "assistant",
+    "label": "Assistant",
+    "icon": "Bot",
+    "instructions": [
+      "\"Open\" tickets in everyday language means status Open, In Progress or Waiting on Customer unless the user says otherwise; say which statuses you counted.",
+      "Resolution time = resolvedDate - createdDate; only Resolved and Closed tickets have a resolvedDate.",
+      "Refer to tickets by their number (e.g. TCK-1042)."
+    ],
+    "suggestions": [
+      "How many Critical tickets are still open?",
+      "Which customer has the most tickets, and what tier is it?",
+      "What is the average CSAT for Gold customers?",
+      "Summarize the 3 most recent Outage tickets."
+    ],
+    "genericTools": [
+      "entityFieldRetriever",
+      "entityDataRetriever"
+    ],
+    "tools": [
+      {
+        "name": "ticketStats",
+        "kind": "stats",
+        "entity": "SupportTicket",
+        "groupBy": [
+          "status",
+          "priority",
+          "category",
+          "product",
+          "channel",
+          "customer",
+          "customer.tier",
+          "customer.region",
+          "month"
+        ],
+        "filters": [
+          "status",
+          "priority",
+          "category",
+          "product",
+          "channel",
+          "customer.name",
+          "customer.tier",
+          "customer.region"
+        ],
+        "dateField": "createdDate",
+        "measures": [
+          {
+            "key": "avgSatisfaction",
+            "agg": "avg",
+            "field": "satisfaction"
+          },
+          {
+            "key": "avgFirstResponseHours",
+            "agg": "avg",
+            "field": "firstResponseHours"
+          }
+        ]
+      },
+      {
+        "name": "searchTickets",
+        "kind": "search",
+        "entity": "SupportTicket",
+        "text": [
+          "number",
+          "subject",
+          "description",
+          "customer.name"
+        ],
+        "filters": [
+          "status",
+          "priority",
+          "category",
+          "product",
+          "channel",
+          "customer.name",
+          "customer.tier",
+          "customer.region"
+        ],
+        "dateField": "createdDate",
+        "columns": [
+          "number",
+          "subject",
+          "status",
+          "priority",
+          "category",
+          "product",
+          "customer.name",
+          "createdDate",
+          "resolvedDate",
+          "satisfaction",
+          "description"
+        ]
+      },
+      {
+        "name": "customerLookup",
+        "kind": "search",
+        "entity": "Customer",
+        "text": [
+          "name",
+          "industry",
+          "accountManager"
+        ],
+        "filters": [
+          "tier",
+          "region"
+        ],
+        "columns": [
+          "name",
+          "tier",
+          "region",
+          "industry",
+          "accountManager"
+        ]
+      }
+    ],
+    "write": {
+      "name": "proposeTicketUpdate",
+      "entity": "SupportTicket",
+      "key": "number",
+      "fields": [
+        "status",
+        "priority"
+      ]
+    }
+  }
+}

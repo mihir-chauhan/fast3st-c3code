@@ -1,0 +1,110 @@
+
+/* ------------------------------------------------------------------------------------------------------------
+ * c3app-gen app layer. Unlayered on purpose: Tailwind utilities live in @layer utilities and lose to the vendored
+ * components' unlayered SCSS, so app-wide restyling of kit components goes here (14-lab4-clean-ui.md, Edit B).
+ * ---------------------------------------------------------------------------------------------------------- */
+
+/* Page header type scale: 24px semibold title, muted 13px description. */
+:root .page-header .header--size-xl .header__title {
+  font-size: 24px;
+  line-height: 32px;
+  font-weight: 600;
+}
+:root .page-header .header--size-xl .header__subtitle {
+  font-size: 13px;
+  line-height: 20px;
+  color: var(--c3-style-basic-fg-secondary);
+}
+
+/* Card headers (charts, tables, detail sections): 15px semibold title, muted 13px subtitle. */
+:root .c3-container__header .header--size-md .header__title {
+  font-size: 15px;
+  line-height: 22px;
+  font-weight: 600;
+}
+:root .c3-container__header .header--size-md .header__subtitle {
+  font-size: 13px;
+  line-height: 20px;
+  color: var(--c3-style-basic-fg-secondary);
+}
+
+/* Tables: ~40px single-line rows, muted header labels, tabular numbers on right-aligned cells. */
+:root .c3-data-grid__cell {
+  padding-top: 9px;
+  padding-bottom: 9px;
+  font-size: 14px;
+  line-height: 20px;
+}
+:root .c3-data-grid__head {
+  color: var(--c3-style-basic-fg-secondary);
+  font-size: 13px;
+  font-weight: 600;
+}
+:root .c3-data-grid__cell[data-align='right'] {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Phone navigation drawer (SideNav below 768px). */
+.app-drawer__backdrop {
+  border: 0;
+  background: rgb(10 10 10 / 40%);
+}
+.app-drawer__panel {
+  box-shadow: var(--c3-style-shadow-default-lg);
+}
+
+/* Phone width: 16px gutters, header actions wrap under the title, no horizontal page scroll. */
+@media (max-width: 767px) {
+  :root .page-header__breadcrumbs,
+  :root .page-header__title-group,
+  :root .page-header__content,
+  :root .page-header__tabs {
+    padding-inline: 16px;
+  }
+  :root .page-header .header--size-xl {
+    flex-wrap: wrap;
+    row-gap: 12px;
+  }
+  :root .page-header .header--size-xl > .header__main {
+    flex-basis: 100%;
+  }
+  :root .page-header .header__actions {
+    flex-wrap: wrap;
+    flex-shrink: 1;
+    min-width: 0;
+    max-width: 100%;
+  }
+  :root .page-header .header--size-xl .header__title-group {
+    flex-wrap: wrap;
+  }
+  :root .page-header .header--size-xl .header__title {
+    white-space: normal;
+  }
+  :root .page-header .header--size-xl .header__title {
+    font-size: 20px;
+    line-height: 28px;
+  }
+  :root .page-header .header--size-xl .header__subtitle {
+    white-space: normal;
+  }
+  :root .page-header__tabs {
+    overflow-x: auto;
+  }
+}
+
+/* Map pages (react-leaflet): theme the popup, dim the OSM tiles in dark mode. */
+:root .app-map .leaflet-container {
+  font-family: inherit;
+  background: var(--c3-style-basic-bg-secondary);
+}
+:root .app-map .leaflet-popup-content-wrapper,
+:root .app-map .leaflet-popup-tip {
+  background: var(--c3-style-basic-bg-primary);
+  color: var(--c3-style-basic-fg-primary);
+}
+:root .app-map .leaflet-popup-content a {
+  color: var(--c3-style-basic-fg-accent);
+}
+.dark .app-map .leaflet-tile-pane {
+  filter: invert(1) hue-rotate(180deg) brightness(0.9) contrast(0.9);
+}

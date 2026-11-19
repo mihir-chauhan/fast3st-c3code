@@ -1,0 +1,1454 @@
+{
+  "package": "fieldops",
+  "title": "Field Service Operations",
+  "description": "Field service work orders across customer sites, assigned to technicians",
+  "asOf": "2026-11-19",
+  "seed": "fieldops-v1",
+  "dataDir": "data",
+  "tests": true,
+  "entities": [
+    {
+      "name": "ServiceSite",
+      "doc": "A customer location where field service work is performed. Each site belongs to one {@link ServiceSite.Region} and carries map coordinates.",
+      "plural": "Sites",
+      "singular": "Site",
+      "route": "sites",
+      "icon": "Building2",
+      "label": "name",
+      "enums": [
+        {
+          "name": "Region",
+          "doc": "Geographic service region used to group {@link ServiceSite}s and {@link Technician}s.",
+          "values": [
+            {
+              "key": "NORTHEAST",
+              "label": "Northeast",
+              "doc": "New England and the Mid-Atlantic states.",
+              "appearance": "info"
+            },
+            {
+              "key": "SOUTHEAST",
+              "label": "Southeast",
+              "doc": "The southeastern states, including Florida and Georgia.",
+              "appearance": "success"
+            },
+            {
+              "key": "MIDWEST",
+              "label": "Midwest",
+              "doc": "The central and Great Lakes states.",
+              "appearance": "accent"
+            },
+            {
+              "key": "SOUTHWEST",
+              "label": "Southwest",
+              "doc": "Texas, Arizona, and neighboring states.",
+              "appearance": "warning"
+            },
+            {
+              "key": "WEST",
+              "label": "West",
+              "doc": "The Pacific and Mountain states.",
+              "appearance": "secondary"
+            }
+          ]
+        }
+      ],
+      "fields": [
+        {
+          "name": "customer",
+          "doc": "Customer (account) that owns or operates this site."
+        },
+        {
+          "name": "address",
+          "doc": "Street address of the site."
+        },
+        {
+          "name": "city",
+          "doc": "City where the site is located."
+        },
+        {
+          "name": "state",
+          "doc": "Two-letter US state code (e.g. `TX`)."
+        },
+        {
+          "name": "region",
+          "enum": "Region",
+          "doc": "Service region the site is assigned to; used to match {@link Technician#region}."
+        },
+        {
+          "name": "latitude",
+          "type": "double",
+          "doc": "Latitude of the site in decimal degrees (WGS84)."
+        },
+        {
+          "name": "longitude",
+          "type": "double",
+          "doc": "Longitude of the site in decimal degrees (WGS84)."
+        }
+      ],
+      "list": {
+        "columns": [
+          "name",
+          "customer",
+          "city",
+          "state",
+          "region"
+        ],
+        "search": [
+          "name",
+          "customer",
+          "city"
+        ],
+        "filters": [
+          "region"
+        ],
+        "sort": {
+          "field": "name",
+          "dir": "asc"
+        }
+      },
+      "seed": {
+        "idPrefix": "site_",
+        "rows": [
+          {
+            "name": "Harbor Point Distribution Center",
+            "customer": "Northwind Logistics",
+            "address": "120 Seaport Blvd",
+            "city": "Boston",
+            "state": "MA",
+            "region": "Northeast",
+            "latitude": 42.3496,
+            "longitude": -71.0447
+          },
+          {
+            "name": "Midtown Medical Plaza",
+            "customer": "Lenox Health Partners",
+            "address": "455 W 34th St",
+            "city": "New York",
+            "state": "NY",
+            "region": "Northeast",
+            "latitude": 40.7536,
+            "longitude": -73.9965
+          },
+          {
+            "name": "Schuylkill Cold Storage",
+            "customer": "FreshLine Foods",
+            "address": "2900 Grays Ferry Ave",
+            "city": "Philadelphia",
+            "state": "PA",
+            "region": "Northeast",
+            "latitude": 39.9407,
+            "longitude": -75.1981
+          },
+          {
+            "name": "Meadowlands Retail Hub",
+            "customer": "Brightway Stores",
+            "address": "1 Harmon Plaza",
+            "city": "Secaucus",
+            "state": "NJ",
+            "region": "Northeast",
+            "latitude": 40.7895,
+            "longitude": -74.0565
+          },
+          {
+            "name": "Riverfront Office Tower",
+            "customer": "Constitution Realty",
+            "address": "100 Pearl St",
+            "city": "Hartford",
+            "state": "CT",
+            "region": "Northeast",
+            "latitude": 41.7658,
+            "longitude": -72.6734
+          },
+          {
+            "name": "Peachtree Data Center",
+            "customer": "Corvia Cloud",
+            "address": "56 Marietta St NW",
+            "city": "Atlanta",
+            "state": "GA",
+            "region": "Southeast",
+            "latitude": 33.7563,
+            "longitude": -84.3915
+          },
+          {
+            "name": "Bayside Grocery #214",
+            "customer": "FreshLine Foods",
+            "address": "4100 W Kennedy Blvd",
+            "city": "Tampa",
+            "state": "FL",
+            "region": "Southeast",
+            "latitude": 27.9447,
+            "longitude": -82.5113
+          },
+          {
+            "name": "Research Triangle Lab Campus",
+            "customer": "Helix Biosciences",
+            "address": "3000 Slater Rd",
+            "city": "Morrisville",
+            "state": "NC",
+            "region": "Southeast",
+            "latitude": 35.8693,
+            "longitude": -78.8253
+          },
+          {
+            "name": "Music Row Hotel",
+            "customer": "Cumberland Hospitality",
+            "address": "1600 Division St",
+            "city": "Nashville",
+            "state": "TN",
+            "region": "Southeast",
+            "latitude": 36.1513,
+            "longitude": -86.7926
+          },
+          {
+            "name": "Lowcountry Manufacturing Plant",
+            "customer": "Palmetto Components",
+            "address": "8800 Dorchester Rd",
+            "city": "North Charleston",
+            "state": "SC",
+            "region": "Southeast",
+            "latitude": 32.9204,
+            "longitude": -80.0981
+          },
+          {
+            "name": "West Loop Corporate Center",
+            "customer": "Lakeshore Financial",
+            "address": "350 N Morgan St",
+            "city": "Chicago",
+            "state": "IL",
+            "region": "Midwest",
+            "latitude": 41.8881,
+            "longitude": -87.652
+          },
+          {
+            "name": "Short North Grocery #88",
+            "customer": "FreshLine Foods",
+            "address": "1000 N High St",
+            "city": "Columbus",
+            "state": "OH",
+            "region": "Midwest",
+            "latitude": 39.9816,
+            "longitude": -83.0045
+          },
+          {
+            "name": "Corktown Assembly Facility",
+            "customer": "Motor City Robotics",
+            "address": "2001 Michigan Ave",
+            "city": "Detroit",
+            "state": "MI",
+            "region": "Midwest",
+            "latitude": 42.3312,
+            "longitude": -83.0773
+          },
+          {
+            "name": "North Loop Clinic",
+            "customer": "Lenox Health Partners",
+            "address": "250 N 3rd Ave",
+            "city": "Minneapolis",
+            "state": "MN",
+            "region": "Midwest",
+            "latitude": 44.9842,
+            "longitude": -93.2723
+          },
+          {
+            "name": "Gateway Fulfillment Center",
+            "customer": "Northwind Logistics",
+            "address": "5800 N Lindbergh Blvd",
+            "city": "Hazelwood",
+            "state": "MO",
+            "region": "Midwest",
+            "latitude": 38.7731,
+            "longitude": -90.3618
+          },
+          {
+            "name": "Energy Corridor Campus",
+            "customer": "Gulfstar Energy",
+            "address": "900 Threadneedle St",
+            "city": "Houston",
+            "state": "TX",
+            "region": "Southwest",
+            "latitude": 29.7836,
+            "longitude": -95.6235
+          },
+          {
+            "name": "Domain Retail Center",
+            "customer": "Brightway Stores",
+            "address": "11410 Century Oaks Ter",
+            "city": "Austin",
+            "state": "TX",
+            "region": "Southwest",
+            "latitude": 30.4021,
+            "longitude": -97.7253
+          },
+          {
+            "name": "Sky Harbor Cargo Terminal",
+            "customer": "Northwind Logistics",
+            "address": "2800 E Air Ln",
+            "city": "Phoenix",
+            "state": "AZ",
+            "region": "Southwest",
+            "latitude": 33.4294,
+            "longitude": -112.0216
+          },
+          {
+            "name": "Sandia Foothills Hospital",
+            "customer": "Lenox Health Partners",
+            "address": "4701 Montgomery Blvd NE",
+            "city": "Albuquerque",
+            "state": "NM",
+            "region": "Southwest",
+            "latitude": 35.131,
+            "longitude": -106.5939
+          },
+          {
+            "name": "Bricktown Office Park",
+            "customer": "Constitution Realty",
+            "address": "101 E Sheridan Ave",
+            "city": "Oklahoma City",
+            "state": "OK",
+            "region": "Southwest",
+            "latitude": 35.4655,
+            "longitude": -97.511
+          },
+          {
+            "name": "Mission Bay Research Tower",
+            "customer": "Helix Biosciences",
+            "address": "1700 Owens St",
+            "city": "San Francisco",
+            "state": "CA",
+            "region": "West",
+            "latitude": 37.768,
+            "longitude": -122.3934
+          },
+          {
+            "name": "Port of LA Cold Chain",
+            "customer": "FreshLine Foods",
+            "address": "1300 Ferry St",
+            "city": "San Pedro",
+            "state": "CA",
+            "region": "West",
+            "latitude": 33.7342,
+            "longitude": -118.2702
+          },
+          {
+            "name": "South Lake Union Data Hall",
+            "customer": "Corvia Cloud",
+            "address": "1100 Dexter Ave N",
+            "city": "Seattle",
+            "state": "WA",
+            "region": "West",
+            "latitude": 47.629,
+            "longitude": -122.3423
+          },
+          {
+            "name": "RiNo Hotel & Conference",
+            "customer": "Cumberland Hospitality",
+            "address": "3500 Walnut St",
+            "city": "Denver",
+            "state": "CO",
+            "region": "West",
+            "latitude": 39.768,
+            "longitude": -104.975
+          },
+          {
+            "name": "Pearl District Retail Hub",
+            "customer": "Brightway Stores",
+            "address": "1233 NW Northrup St",
+            "city": "Portland",
+            "state": "OR",
+            "region": "West",
+            "latitude": 45.5317,
+            "longitude": -122.6853
+          }
+        ]
+      },
+      "map": {
+        "lat": "latitude",
+        "lng": "longitude",
+        "colorBy": "region",
+        "popup": [
+          "customer",
+          "city",
+          "state",
+          "region"
+        ],
+        "title": "Sites Map"
+      }
+    },
+    {
+      "name": "Technician",
+      "doc": "A field technician who is assigned {@link WorkOrder}s within a {@link ServiceSite.Region}.",
+      "icon": "Users",
+      "label": "name",
+      "enums": [
+        {
+          "name": "Skill",
+          "doc": "Primary trade skill of a {@link Technician}.",
+          "values": [
+            {
+              "key": "HVAC",
+              "label": "HVAC",
+              "doc": "Heating, ventilation, and air conditioning.",
+              "appearance": "info",
+              "weight": 4
+            },
+            {
+              "key": "ELECTRICAL",
+              "label": "Electrical",
+              "doc": "Electrical systems and panels.",
+              "appearance": "warning",
+              "weight": 3
+            },
+            {
+              "key": "PLUMBING",
+              "label": "Plumbing",
+              "doc": "Plumbing and water systems.",
+              "appearance": "accent",
+              "weight": 2
+            },
+            {
+              "key": "REFRIGERATION",
+              "label": "Refrigeration",
+              "doc": "Commercial refrigeration equipment.",
+              "appearance": "success",
+              "weight": 2
+            },
+            {
+              "key": "FIRE_SAFETY",
+              "label": "Fire Safety",
+              "doc": "Fire alarm and life-safety systems.",
+              "appearance": "danger",
+              "weight": 1
+            }
+          ]
+        },
+        {
+          "name": "Status",
+          "doc": "Availability of a {@link Technician}.",
+          "values": [
+            {
+              "key": "AVAILABLE",
+              "label": "Available",
+              "doc": "Ready to take a new assignment.",
+              "appearance": "success",
+              "weight": 6
+            },
+            {
+              "key": "ON_JOB",
+              "label": "On Job",
+              "doc": "Currently working a job on site.",
+              "appearance": "accent",
+              "weight": 5
+            },
+            {
+              "key": "OFF_DUTY",
+              "label": "Off Duty",
+              "doc": "Outside working hours.",
+              "appearance": "secondary",
+              "weight": 2
+            },
+            {
+              "key": "ON_LEAVE",
+              "label": "On Leave",
+              "doc": "On planned leave and not assignable.",
+              "appearance": "warning",
+              "weight": 1
+            }
+          ]
+        }
+      ],
+      "fields": [
+        {
+          "name": "skill",
+          "enum": "Skill",
+          "doc": "Primary trade skill of the technician."
+        },
+        {
+          "name": "region",
+          "enum": "ServiceSite.Region",
+          "doc": "Service region the technician covers."
+        },
+        {
+          "name": "phone",
+          "doc": "Contact phone number.",
+          "gen": {
+            "kind": "pattern",
+            "pattern": "(555) ###-####"
+          }
+        },
+        {
+          "name": "status",
+          "enum": "Status",
+          "doc": "Current availability of the technician."
+        }
+      ],
+      "list": {
+        "columns": [
+          "name",
+          "skill",
+          "region",
+          "status",
+          "phone"
+        ],
+        "search": [
+          "name",
+          "phone"
+        ],
+        "filters": [
+          "skill",
+          "region",
+          "status"
+        ],
+        "sort": {
+          "field": "name",
+          "dir": "asc"
+        }
+      },
+      "seed": {
+        "idPrefix": "tech_",
+        "rows": [
+          {
+            "name": "Maya Patel",
+            "region": "Northeast"
+          },
+          {
+            "name": "Daniel Okafor",
+            "region": "Northeast"
+          },
+          {
+            "name": "Sofia Marchetti",
+            "region": "Northeast"
+          },
+          {
+            "name": "Marcus Johnson",
+            "region": "Southeast"
+          },
+          {
+            "name": "Elena Ruiz",
+            "region": "Southeast"
+          },
+          {
+            "name": "Tyrone Walker",
+            "region": "Southeast"
+          },
+          {
+            "name": "Hannah Lindqvist",
+            "region": "Midwest"
+          },
+          {
+            "name": "Kevin O'Brien",
+            "region": "Midwest"
+          },
+          {
+            "name": "Priya Raman",
+            "region": "Midwest"
+          },
+          {
+            "name": "Luis Hernandez",
+            "region": "Southwest"
+          },
+          {
+            "name": "Grace Kim",
+            "region": "Southwest"
+          },
+          {
+            "name": "Samuel Begay",
+            "region": "Southwest"
+          },
+          {
+            "name": "Olivia Chen",
+            "region": "West"
+          },
+          {
+            "name": "Jacob Thornton",
+            "region": "West"
+          },
+          {
+            "name": "Aisha Mohammed",
+            "region": "West"
+          }
+        ]
+      }
+    },
+    {
+      "name": "WorkOrder",
+      "doc": "A unit of field service work performed at a {@link ServiceSite} by a {@link Technician}, tracked from creation through scheduling to completion with estimated versus actual hours and cost.",
+      "plural": "Work Orders",
+      "singular": "Work Order",
+      "icon": "ClipboardList",
+      "label": "number",
+      "subtitle": "title",
+      "enums": [
+        {
+          "name": "WorkType",
+          "doc": "Kind of work a {@link WorkOrder} represents.",
+          "values": [
+            {
+              "key": "PREVENTIVE",
+              "label": "Preventive",
+              "doc": "Scheduled maintenance to prevent failures.",
+              "appearance": "info",
+              "weight": 4
+            },
+            {
+              "key": "CORRECTIVE",
+              "label": "Corrective",
+              "doc": "Repair of a reported fault.",
+              "appearance": "warning",
+              "weight": 5
+            },
+            {
+              "key": "EMERGENCY",
+              "label": "Emergency",
+              "doc": "Urgent response to an outage or safety issue.",
+              "appearance": "danger",
+              "weight": 1
+            },
+            {
+              "key": "INSTALLATION",
+              "label": "Installation",
+              "doc": "Installation of new equipment.",
+              "appearance": "accent",
+              "weight": 2
+            },
+            {
+              "key": "INSPECTION",
+              "label": "Inspection",
+              "doc": "Inspection or compliance audit.",
+              "appearance": "secondary",
+              "weight": 2
+            }
+          ]
+        },
+        {
+          "name": "Priority",
+          "doc": "Urgency of a {@link WorkOrder}.",
+          "values": [
+            {
+              "key": "LOW",
+              "label": "Low",
+              "doc": "Can wait for the next convenient slot.",
+              "appearance": "secondary",
+              "weight": 3
+            },
+            {
+              "key": "MEDIUM",
+              "label": "Medium",
+              "doc": "Should be handled within the normal schedule.",
+              "appearance": "info",
+              "weight": 5
+            },
+            {
+              "key": "HIGH",
+              "label": "High",
+              "doc": "Should be handled within a day or two.",
+              "appearance": "warning",
+              "weight": 3
+            },
+            {
+              "key": "CRITICAL",
+              "label": "Critical",
+              "doc": "Requires immediate response.",
+              "appearance": "danger",
+              "weight": 1
+            }
+          ]
+        },
+        {
+          "name": "Status",
+          "doc": "Lifecycle status of a {@link WorkOrder}.",
+          "values": [
+            {
+              "key": "OPEN",
+              "label": "Open",
+              "doc": "Raised but not yet scheduled.",
+              "appearance": "info",
+              "weight": 10
+            },
+            {
+              "key": "SCHEDULED",
+              "label": "Scheduled",
+              "doc": "Scheduled with a date and technician.",
+              "appearance": "accent",
+              "weight": 12
+            },
+            {
+              "key": "IN_PROGRESS",
+              "label": "In Progress",
+              "doc": "Work is underway on site.",
+              "appearance": "warning",
+              "weight": 9
+            },
+            {
+              "key": "ON_HOLD",
+              "label": "On Hold",
+              "doc": "Paused, for example waiting on parts or customer access.",
+              "appearance": "secondary",
+              "weight": 5
+            },
+            {
+              "key": "COMPLETED",
+              "label": "Completed",
+              "doc": "Work is finished.",
+              "appearance": "success",
+              "weight": 58
+            },
+            {
+              "key": "CANCELLED",
+              "label": "Cancelled",
+              "doc": "Work order was cancelled and will not be performed.",
+              "appearance": "primary",
+              "weight": 6
+            }
+          ]
+        }
+      ],
+      "fields": [
+        {
+          "name": "number",
+          "required": true,
+          "auto": "seq",
+          "doc": "Human-readable work order number (e.g. `WO-10042`), unique per work order.",
+          "gen": {
+            "kind": "seq",
+            "format": "WO-{n}",
+            "start": 10001
+          }
+        },
+        {
+          "name": "workType",
+          "enum": "WorkType",
+          "label": "Type",
+          "doc": "Kind of work being performed."
+        },
+        {
+          "name": "title",
+          "required": true,
+          "doc": "Short summary of the work.",
+          "gen": {
+            "kind": "pickBy",
+            "field": "workType",
+            "values": {
+              "Preventive": [
+                "Quarterly rooftop unit PM",
+                "Annual boiler service",
+                "Chiller coil cleaning",
+                "Generator load bank test",
+                "Filter change and belt inspection",
+                "Backflow preventer test"
+              ],
+              "Corrective": [
+                "Walk-in cooler not holding temperature",
+                "Tripped breaker on panel 3B",
+                "Leaking condensate line",
+                "Ice machine not producing",
+                "Lighting circuit failure in warehouse",
+                "Low water pressure in restrooms",
+                "Rooftop unit short cycling"
+              ],
+              "Emergency": [
+                "Total HVAC outage in server room",
+                "Burst pipe in mechanical room",
+                "Fire alarm panel in trouble state",
+                "Freezer alarm: temperature rising"
+              ],
+              "Installation": [
+                "Install new reach-in freezers",
+                "Replace VAV controllers on floor 4",
+                "Install EV charging circuits",
+                "Commission new chiller"
+              ],
+              "Inspection": [
+                "Annual fire sprinkler inspection",
+                "Electrical thermography survey",
+                "Refrigerant leak inspection",
+                "Emergency lighting compliance check"
+              ]
+            }
+          }
+        },
+        {
+          "name": "description",
+          "multiline": true,
+          "doc": "Detailed description of the problem or requested work.",
+          "gen": {
+            "kind": "pickBy",
+            "field": "workType",
+            "values": {
+              "Preventive": [
+                "Routine scheduled maintenance per the service agreement. Inspect, clean and record readings.",
+                "Planned maintenance visit. Replace consumables and note any parts needing follow-up."
+              ],
+              "Corrective": [
+                "Site reported the fault this morning. Diagnose root cause and repair; quote parts if not on the truck.",
+                "Intermittent fault reported by facilities. Reproduce, repair and confirm with the site contact."
+              ],
+              "Emergency": [
+                "Site down. Respond immediately and keep the customer updated every hour until resolved."
+              ],
+              "Installation": [
+                "Install and commission per the approved scope. Coordinate access with the site manager."
+              ],
+              "Inspection": [
+                "Compliance inspection. Complete the checklist and upload the report to the customer portal."
+              ]
+            }
+          }
+        },
+        {
+          "name": "priority",
+          "enum": "Priority",
+          "doc": "Urgency of the work order."
+        },
+        {
+          "name": "status",
+          "enum": "Status",
+          "doc": "Lifecycle status of the work order."
+        },
+        {
+          "name": "site",
+          "ref": "ServiceSite",
+          "doc": "Site where the work is performed.",
+          "inverse": "workOrders",
+          "inverseLabel": "Work Orders"
+        },
+        {
+          "name": "technician",
+          "ref": "Technician",
+          "doc": "Technician assigned to the work; unset while unassigned.",
+          "inverse": "workOrders",
+          "inverseLabel": "Work Orders",
+          "gen": {
+            "kind": "ref",
+            "match": {
+              "region": "site.region"
+            },
+            "nullRate": 0.05,
+            "when": {
+              "status": [
+                "Scheduled",
+                "In Progress",
+                "On Hold",
+                "Completed",
+                "Cancelled"
+              ]
+            }
+          }
+        },
+        {
+          "name": "createdDate",
+          "type": "datetime",
+          "auto": "now",
+          "label": "Created",
+          "doc": "When the work order was raised.",
+          "gen": [
+            {
+              "kind": "datetime",
+              "fromDays": -180,
+              "toDays": -4,
+              "when": {
+                "status": [
+                  "Completed",
+                  "Cancelled"
+                ]
+              }
+            },
+            {
+              "kind": "datetime",
+              "fromDays": -28,
+              "toDays": 0
+            }
+          ]
+        },
+        {
+          "name": "scheduledDate",
+          "type": "datetime",
+          "label": "Scheduled",
+          "doc": "When the work is scheduled to be performed.",
+          "gen": {
+            "kind": "datetime",
+            "after": "createdDate",
+            "minDays": 1,
+            "maxDays": 18,
+            "when": {
+              "status": [
+                "Scheduled",
+                "In Progress",
+                "On Hold",
+                "Completed"
+              ]
+            }
+          }
+        },
+        {
+          "name": "completedDate",
+          "type": "datetime",
+          "label": "Completed",
+          "doc": "When the work was completed; set only for {@link WorkOrder.Status#COMPLETED} work orders.",
+          "gen": {
+            "kind": "datetime",
+            "after": "scheduledDate",
+            "minDays": -1,
+            "maxDays": 4,
+            "notAfterAsOf": true,
+            "when": {
+              "status": [
+                "Completed"
+              ]
+            }
+          }
+        },
+        {
+          "name": "estimatedHours",
+          "type": "double",
+          "format": "hours",
+          "label": "Est. Hours",
+          "doc": "Planned labor hours.",
+          "gen": {
+            "kind": "number",
+            "mean": 4.5,
+            "stdDev": 2.2,
+            "min": 0.5,
+            "max": 16,
+            "decimals": 1
+          }
+        },
+        {
+          "name": "actualHours",
+          "type": "double",
+          "format": "hours",
+          "label": "Actual Hours",
+          "doc": "Labor hours actually spent.",
+          "gen": {
+            "kind": "number",
+            "mean": 1.08,
+            "stdDev": 0.22,
+            "min": 0.5,
+            "max": 2.2,
+            "times": "estimatedHours",
+            "decimals": 1,
+            "when": {
+              "status": [
+                "Completed"
+              ]
+            }
+          }
+        },
+        {
+          "name": "cost",
+          "type": "double",
+          "format": "currency",
+          "doc": "Total cost of the work (labor and parts) in USD.",
+          "gen": {
+            "kind": "number",
+            "mean": 145,
+            "stdDev": 35,
+            "min": 80,
+            "max": 320,
+            "times": "actualHours",
+            "decimals": 2,
+            "when": {
+              "status": [
+                "Completed"
+              ]
+            }
+          }
+        },
+        {
+          "name": "costPerHour",
+          "label": "Cost per Hour",
+          "type": "double",
+          "format": "currency",
+          "calc": "exists(cost) && exists(actualHours) && actualHours > 0 ? cost / actualHours : null",
+          "stored": true,
+          "doc": "Cost divided by actual hours; empty until the work order has both. Stored calc field, recomputed by the platform when cost or actualHours change."
+        }
+      ],
+      "list": {
+        "columns": [
+          "number",
+          "title",
+          "site",
+          "technician",
+          "priority",
+          "status",
+          "scheduledDate",
+          "cost"
+        ],
+        "search": [
+          "number",
+          "title",
+          "site.name",
+          "technician.name"
+        ],
+        "filters": [
+          "status",
+          "priority",
+          "workType",
+          "site.region",
+          "site",
+          "technician"
+        ],
+        "sort": {
+          "field": "createdDate",
+          "dir": "desc"
+        }
+      },
+      "detail": {
+        "actions": [
+          {
+            "label": "Start Work",
+            "icon": "Play",
+            "set": {
+              "status": "In Progress"
+            },
+            "when": {
+              "status": [
+                "Open",
+                "Scheduled",
+                "On Hold"
+              ]
+            }
+          },
+          {
+            "label": "Put On Hold",
+            "icon": "Pause",
+            "set": {
+              "status": "On Hold"
+            },
+            "when": {
+              "status": [
+                "In Progress"
+              ]
+            }
+          },
+          {
+            "label": "Complete",
+            "icon": "CheckCircle2",
+            "appearance": "success",
+            "set": {
+              "status": "Completed",
+              "completedDate": "$now"
+            },
+            "when": {
+              "status": [
+                "Open",
+                "Scheduled",
+                "In Progress",
+                "On Hold"
+              ]
+            }
+          },
+          {
+            "label": "Cancel",
+            "icon": "XCircle",
+            "appearance": "danger",
+            "set": {
+              "status": "Cancelled"
+            },
+            "when": {
+              "status": [
+                "Open",
+                "Scheduled",
+                "In Progress",
+                "On Hold"
+              ]
+            }
+          }
+        ]
+      },
+      "form": {
+        "description": "Raise a new field service work order",
+        "defaults": {
+          "workType": "Corrective",
+          "priority": "Medium",
+          "status": "Open"
+        },
+        "sections": [
+          {
+            "title": "Work",
+            "fields": [
+              "title",
+              "description",
+              "workType",
+              "priority",
+              "status"
+            ]
+          },
+          {
+            "title": "Location & Assignment",
+            "fields": [
+              "site",
+              "technician"
+            ]
+          },
+          {
+            "title": "Schedule, Effort & Cost",
+            "fields": [
+              "scheduledDate",
+              "completedDate",
+              "estimatedHours",
+              "actualHours",
+              "cost"
+            ]
+          }
+        ]
+      },
+      "seed": {
+        "count": 200,
+        "idPrefix": "wo_",
+        "idStart": 10001
+      },
+      "ingest": {
+        "feed": "WorkOrderFeed",
+        "idColumn": "wo_number",
+        "columns": {
+          "wo_number": "number",
+          "title": "title",
+          "work_type": "workType",
+          "priority": "priority",
+          "status": "status",
+          "site_id": "site",
+          "technician_id": "technician",
+          "created": "createdDate",
+          "scheduled": "scheduledDate",
+          "estimated_hours": "estimatedHours",
+          "cost": "cost"
+        },
+        "sample": [
+          {
+            "wo_number": "WO-30001",
+            "title": "Replace rooftop unit belts",
+            "work_type": "Preventive",
+            "priority": "medium",
+            "status": "Scheduled",
+            "site_id": "site_001",
+            "technician_id": "tech_001",
+            "created": "2026-11-18",
+            "scheduled": "11/28/2026",
+            "estimated_hours": "3.5",
+            "cost": ""
+          },
+          {
+            "wo_number": "WO-30002",
+            "title": "Emergency generator failure",
+            "work_type": "emergency",
+            "priority": "Critical",
+            "status": "In Progress",
+            "site_id": "site_002",
+            "technician_id": "",
+            "created": "2026/11/17",
+            "scheduled": "2026-11-19",
+            "estimated_hours": "6",
+            "cost": "$1,250.00"
+          },
+          {
+            "wo_number": "WO-30003",
+            "title": "Install EV chargers phase 2",
+            "work_type": "Installation",
+            "priority": "High",
+            "status": "Open",
+            "site_id": "site_003",
+            "technician_id": "tech_004",
+            "created": "2026-11-15",
+            "scheduled": "N/A",
+            "estimated_hours": "12",
+            "cost": "n/a"
+          },
+          {
+            "wo_number": "WO-30004",
+            "title": "Quarterly fire panel inspection",
+            "work_type": "Inspection",
+            "priority": "Low",
+            "status": "Completed",
+            "site_id": "site_004",
+            "technician_id": "tech_005",
+            "created": "2026-11-01",
+            "scheduled": "2026-11-05",
+            "estimated_hours": "2",
+            "cost": "310.5"
+          },
+          {
+            "wo_number": "WO-30005",
+            "title": "Chiller leak at unknown site",
+            "work_type": "Corrective",
+            "priority": "High",
+            "status": "Open",
+            "site_id": "site_999",
+            "technician_id": "",
+            "created": "2026-11-18",
+            "scheduled": "",
+            "estimated_hours": "4",
+            "cost": ""
+          },
+          {
+            "wo_number": "WO-30006",
+            "title": "Boiler service",
+            "work_type": "Preventive",
+            "priority": "Medium",
+            "status": "Waiting",
+            "site_id": "site_005",
+            "technician_id": "",
+            "created": "2026-11-18",
+            "scheduled": "",
+            "estimated_hours": "3",
+            "cost": ""
+          },
+          {
+            "wo_number": "WO-30007",
+            "title": "Lighting retrofit",
+            "work_type": "Installation",
+            "priority": "Medium",
+            "status": "Open",
+            "site_id": "site_006",
+            "technician_id": "",
+            "created": "2026-13-45",
+            "scheduled": "",
+            "estimated_hours": "about 5",
+            "cost": ""
+          },
+          {
+            "wo_number": "WO-10001",
+            "title": "Duplicate of a loaded work order",
+            "work_type": "Corrective",
+            "priority": "Low",
+            "status": "Open",
+            "site_id": "site_001",
+            "technician_id": "",
+            "created": "2026-11-18",
+            "scheduled": "",
+            "estimated_hours": "1",
+            "cost": ""
+          }
+        ]
+      }
+    }
+  ],
+  "dashboard": {
+    "entity": "WorkOrder",
+    "title": "Field Service Dashboard",
+    "description": "Work order volume, backlog, cost, and technician workload",
+    "kpis": [
+      {
+        "key": "openCount",
+        "label": "Open work orders",
+        "agg": "count",
+        "where": {
+          "status": [
+            "Open",
+            "Scheduled",
+            "In Progress",
+            "On Hold"
+          ]
+        },
+        "caption": "of {totalCount} total · {criticalOpenCount} critical"
+      },
+      {
+        "key": "overdueCount",
+        "label": "Overdue",
+        "agg": "count",
+        "where": {
+          "status": [
+            "Scheduled",
+            "In Progress",
+            "On Hold"
+          ]
+        },
+        "before": "scheduledDate",
+        "alert": "danger",
+        "caption": "{overdueShare} of open work orders"
+      },
+      {
+        "key": "avgEstimatedHours",
+        "label": "Avg estimate",
+        "agg": "avg",
+        "field": "estimatedHours",
+        "format": "hours",
+        "caption": "Planned hours per work order"
+      },
+      {
+        "key": "completionRate",
+        "label": "Completion rate",
+        "agg": "ratio",
+        "of": "completedCount",
+        "over": "totalCount",
+        "format": "percent",
+        "goodAbove": 0.5,
+        "caption": "{completedCount} completed · {totalCost} cost"
+      },
+      {
+        "key": "totalCount",
+        "label": "Total Work Orders",
+        "agg": "count",
+        "caption": "All time",
+        "tile": false
+      },
+      {
+        "key": "criticalOpenCount",
+        "label": "Critical Open",
+        "agg": "count",
+        "where": {
+          "status": [
+            "Open",
+            "Scheduled",
+            "In Progress",
+            "On Hold"
+          ],
+          "priority": [
+            "Critical"
+          ]
+        },
+        "alert": "warning",
+        "caption": "Critical priority, still open",
+        "tile": false
+      },
+      {
+        "key": "completedCount",
+        "label": "Completed",
+        "agg": "count",
+        "where": {
+          "status": [
+            "Completed"
+          ]
+        },
+        "caption": "All time",
+        "tile": false
+      },
+      {
+        "key": "totalCost",
+        "label": "Total Cost",
+        "agg": "sum",
+        "field": "cost",
+        "format": "currency",
+        "caption": "Completed work, labor and parts",
+        "tile": false
+      },
+      {
+        "key": "overdueShare",
+        "label": "Overdue share",
+        "agg": "ratio",
+        "of": "overdueCount",
+        "over": "openCount",
+        "format": "percent",
+        "tile": false,
+        "caption": "Overdue / open"
+      }
+    ],
+    "charts": [
+      {
+        "key": "monthly",
+        "title": "Work orders per month",
+        "subtitle": "Created vs completed",
+        "kind": "monthly",
+        "span": 2,
+        "months": 6,
+        "height": "h-80",
+        "series": [
+          {
+            "label": "Created",
+            "dateField": "createdDate",
+            "appearance": "accent"
+          },
+          {
+            "label": "Completed",
+            "dateField": "completedDate",
+            "appearance": "success"
+          }
+        ]
+      },
+      {
+        "key": "byStatus",
+        "title": "Status breakdown",
+        "subtitle": "All {totalCount} work orders",
+        "kind": "bars",
+        "groupBy": "status"
+      },
+      {
+        "key": "byTechnician",
+        "title": "Technician workload",
+        "subtitle": "Work orders assigned, top 8",
+        "kind": "hbar",
+        "groupBy": "technician",
+        "top": 8,
+        "height": "h-80",
+        "span": "half",
+        "skipEmpty": true
+      },
+      {
+        "key": "costByType",
+        "title": "Cost by work type",
+        "kind": "bars",
+        "groupBy": "workType",
+        "metric": "value",
+        "measure": {
+          "agg": "sum",
+          "field": "cost",
+          "label": "Cost",
+          "format": "currency"
+        },
+        "span": "half"
+      },
+      {
+        "key": "byRegion",
+        "title": "Work orders by region",
+        "kind": "hbar",
+        "groupBy": "site.region",
+        "span": "half"
+      },
+      {
+        "key": "byPriority",
+        "title": "Priority mix",
+        "kind": "bars",
+        "groupBy": "priority",
+        "span": "half"
+      }
+    ],
+    "recent": {
+      "title": "Recent overdue work orders",
+      "subtitle": "{overdueCount} open past their scheduled date",
+      "kpi": "overdueCount",
+      "span": "half",
+      "limit": 8,
+      "sort": {
+        "field": "scheduledDate",
+        "dir": "desc"
+      },
+      "empty": "Nothing overdue.",
+      "columns": [
+        "number",
+        "title",
+        "site",
+        {
+          "since": "scheduledDate",
+          "label": "Days overdue"
+        }
+      ],
+      "after": "byTechnician"
+    }
+  },
+  "access": {
+    "type": "FieldOpsAccess",
+    "roles": [
+      {
+        "id": "FieldOpsViewer",
+        "label": "Viewer",
+        "description": "Read-only access to sites, technicians, work orders and the dashboard.",
+        "read": "*"
+      },
+      {
+        "id": "FieldOpsDispatcher",
+        "label": "Dispatcher",
+        "description": "Viewer plus creating, editing and deleting work orders. Sites and technicians stay read-only.",
+        "nested": [
+          "FieldOpsViewer"
+        ],
+        "write": [
+          "WorkOrder"
+        ],
+        "delete": [
+          "WorkOrder"
+        ]
+      }
+    ]
+  }
+}
